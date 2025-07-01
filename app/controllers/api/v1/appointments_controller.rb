@@ -13,11 +13,21 @@ module Api
       end
 
       def create
-        @appointment = Appointment.new(appointment_params)
+        def create
+          psychologist = User.find(params[:appointment][:psychologist_id])
+          patient = User.find(params[:appointment][:patient_id])
 
-        return render json: @appointment if @appointment.save
+          @appointment = ScheduleAppointment.call(
+            psychologist: psychologist,
+            patient: patient,
+            start_session: params[:appointment][:start_session],
+            end_session: params[:appointment][:end_session]
+          )
 
-        render json: { errors: @appointment.errors.full_messages }, status: :unprocessable_entity
+          render json: @appointment, status: :created
+        rescue ScheduleAppointment::Error => e
+          render json: { errors: [ e.message ] }, status: :unprocessable_entity
+        end
       end
 
 

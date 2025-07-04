@@ -78,27 +78,35 @@ curl -X POST http://localhost:3000/api/v1/appointments \
 ---
 
 ## Conceitos aplicados
+Abaixo estão os conceitos aprendidos em aula e aplicados neste projeto, junto com a justificativa de sua utilização:
 
 1. **API Namespaces**  
-   Organização das rotas e controllers via namespace, facilitando versionamento da API.
+   - **Aplicação:** Organização das rotas e controllers dentro do namespace `Api::V1`, permitindo versionamento e melhor estruturação da API.  
+   - **Justificativa:** Facilita a manutenção e evolução da API sem impactar consumidores de versões anteriores.
 
 2. **Service Objects**  
-   Lógica de agendamento encapsulada em service (`ScheduleAppointment`) para separar regras de negócio da camada controller/model.
+   - **Aplicação:** Classe `ScheduleAppointment` encapsula toda a lógica de criação de agendamentos: validação de conflito de horários, distinção entre paciente e psicólogo.  
+   - **Justificativa:** Mantém controllers e models enxutos, centraliza regras complexas em um único lugar, facilita testes unitários e promove reutilização de código.
 
 3. **Query Objects**  
-   Implementação da busca dos horários disponíveis em query object (`AvailableAppointmentsQuery`), isolando a complexidade da consulta.
+   - **Aplicação:** Classe `AvailableAppointmentsQuery` abstrai a construção da consulta de horários disponíveis para um psicólogo em um dia específico, lidando com lógica de intervalos e checagem de conflitos.  
+   - **Justificativa:** Separa lógica de consulta do model, tornando o código mais legível e testável, e permitindo composição de consultas reutilizáveis.
 
-4. **Background Jobs (ActiveJob + Sidekiq)**  
-   Envio de emails agendados via jobs assíncronos para não bloquear a resposta da API.
+4. **Caching (Rails.cache)**  
+   - **Aplicação:** No `AvailableAppointmentsQuery`, usamos `Rails.cache.fetch` para armazenar resultados por 10 minutos, evitando recálculos frequentes.  
+   - **Justificativa:** Aumenta performance de endpoints que consultam dados estáticos por curtos períodos, reduzindo carga no banco de dados.
 
-5. **Cache**  
-   Utilização do cache de memória para armazenar resultados frequentes, melhorando performance.
+5. **Background Jobs (ActiveJob + Sidekiq)**  
+   - **Aplicação:** `NotifyUpcomingAppointmentJob` agenda o envio de e-mail de lembrete via `AppointmentMailer`, executado uma hora antes da sessão.  
+   - **Justificativa:** Processos demorados, como envio de e-mails, são executados assincronamente, evitando bloqueio de requisições HTTP e melhorando UX.
 
-6. **Mailer**  
-   Configuração do sistema de envio de emails com views em HTML e texto, integrando com jobs para envio programado.
+6. **Mailer e Email Templates**  
+   - **Aplicação:** `AppointmentMailer#upcoming_appointment` define o e-mail HTML e texto enviados ao paciente antes da sessão.  
+   - **Justificativa:** Implementa comunicação eficaz com o usuário, aproveitando views de e-mail para separar lógica de backend e apresentação.
 
 7. **Timezone e Internacionalização**  
-   Configuração do timezone para "Brasilia" garantindo coerência nos horários do sistema.
+   - **Aplicação:** Configuração do timezone para `America/Sao_Paulo` em `application.rb`, garantindo coerência na exibição e agendamento de horários.  
+   - **Justificativa:** Essencial para aplicações que lidam com datas e horários em fusos específicos, evitando confusões e inconsistências.
 
 ---
 

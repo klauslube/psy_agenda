@@ -41,9 +41,11 @@ gem "pundit"
 gem "simple_form"
 gem "interactor"
 gem "interactor-rails"
-
+gem "dotenv"
 
 group :development, :test do
+  gem "letter_opener"
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 

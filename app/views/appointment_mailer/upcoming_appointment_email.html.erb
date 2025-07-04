@@ -1,0 +1,6 @@
+<h1>Olá, <%= @appointment.patient.email %></h1>
+
+<p>Você tem uma consulta agendada com o psicólogo <%= @appointment.psychologist.email %>.</p>
+<p>Data e hora: <%= @appointment.start_session.strftime("%d/%m/%Y %H:%M") %> até <%= @appointment.end_session.strftime("%H:%M") %></p>
+
+<p>Por favor, esteja no horário!</p>

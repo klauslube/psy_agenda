@@ -43,7 +43,6 @@ module Api
         render json: :no_content
       end
 
-
       private
 
       def set_appointment

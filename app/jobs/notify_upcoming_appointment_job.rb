@@ -8,7 +8,7 @@ class NotifyUpcomingAppointmentJob < ApplicationJob
 
     AppointmentMailer.upcoming_appointment_email(appointment).deliver_now
 
-    # Rails.logger.info
-    # "Consulta de #{appointment.patient.email} com #{appointment.psychologist.email} às #{appointment.start_session.strftime('%H:%M')}."
+    Rails.logger.info
+    "Consulta de #{appointment.patient.email} com #{appointment.psychologist.email} às #{appointment.start_session.strftime('%H:%M')}."
   end
 end

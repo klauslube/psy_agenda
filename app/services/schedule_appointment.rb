@@ -41,6 +41,7 @@ class ScheduleAppointment
       status: :scheduled
     )
 
-    NotifyUpcomingAppointmentJob.set(wait: 10.seconds).perform_later(appointment.id)
+    # NotifyUpcomingAppointmentJob.set(wait: 10.seconds).perform_later(appointment.id) para testes
+    NotifyUpcomingAppointmentJob.set(wait_until: appointment.start_session - 1.hour).perform_later(appointment.id)
   end
 end

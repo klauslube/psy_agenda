@@ -33,12 +33,14 @@ class ScheduleAppointment
   end
 
   def create_appointment!
-    Appointment.create!(
+    appointment = Appointment.create!(
       psychologist: psychologist,
       patient: patient,
       start_session: start_session,
       end_session: end_session,
       status: :scheduled
     )
+
+    NotifyUpcomingAppointmentJob.set(wait_until: 10.seconds).perform_later(appointment.id)
   end
 end

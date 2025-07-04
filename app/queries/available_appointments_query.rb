@@ -1,5 +1,5 @@
 class AvailableAppointmentsQuery
-  WORKING_HOURS = (8..21).to_a.freeze
+  WORKING_HOURS = (0..23).to_a.freeze
   SESSION_DURATION = 1.hour
 
   def initialize(psychologist:, date:)

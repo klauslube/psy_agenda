@@ -26,6 +26,9 @@ Projeto desenvolvido como parte do MBA on Rails e projeto pessoal, com foco na c
 git clone https://github.com/klaus/psy_agenda.git
 cd psy_agenda
 
+# abra o VSCode
+# Inicie o projeto dentro do dev container
+
 # Instalar dependências
 bundle install
 

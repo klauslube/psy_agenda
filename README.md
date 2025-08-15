@@ -110,6 +110,11 @@ Abaixo estão os conceitos aprendidos em aula e aplicados neste projeto, junto c
    - **Aplicação:** Configuração do timezone para `America/Sao_Paulo` em `application.rb`, garantindo coerência na exibição e agendamento de horários.  
    - **Justificativa:** Essencial para aplicações que lidam com datas e horários em fusos específicos, evitando confusões e inconsistências.
 
+8. **Relatórios Mensais (Service Objects + Lazy Evaluation + Background Jobs)**  
+   - **Aplicação:** Classes `Reports::MonthlyReport` e `Reports::SectionBuilder` organizam a geração de relatórios mensais de agendamentos e pagamentos. Utiliza `Enumerator::Lazy` para processar grandes volumes de dados de forma eficiente e `GenerateMonthlyReportJob` para execução em background via Sidekiq.  
+   - **Justificativa:** Permite geração de relatórios complexos sem travar a aplicação, mantendo código organizado e testável, além de melhorar performance e UX ao processar dados de forma preguiçosa e assíncrona.
+
+
 ---
 
 ## Próximos passos / melhorias planejadas

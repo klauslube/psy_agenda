@@ -74,6 +74,8 @@ curl -X POST http://localhost:3000/api/v1/appointments \
 - Envio de notificações por e-mail antes das consultas (background job com Sidekiq)  
 - Configuração e uso de cache para otimização das consultas de horários disponíveis  
 - API REST estruturada em namespace `/api/v1`  
+- Feature de relatório mensal de psicólogos, com consultas e pagamentos, gerando CSV, usando lazy evaluation para processamento eficiente e executando em background via Sidekiq
+
 
 ---
 

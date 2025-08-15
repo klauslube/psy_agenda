@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_14_012022) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_14_020243) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,17 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_14_012022) do
     t.decimal "session_value"
     t.index ["patient_id"], name: "index_appointments_on_patient_id"
     t.index ["psychologist_id"], name: "index_appointments_on_psychologist_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "appointment_id", null: false
+    t.decimal "amount"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["appointment_id"], name: "index_payments_on_appointment_id"
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -42,4 +53,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_14_012022) do
 
   add_foreign_key "appointments", "users", column: "patient_id"
   add_foreign_key "appointments", "users", column: "psychologist_id"
+  add_foreign_key "payments", "appointments"
+  add_foreign_key "payments", "users"
 end
